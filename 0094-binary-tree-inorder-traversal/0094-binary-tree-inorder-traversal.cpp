@@ -21,28 +21,52 @@ public:
     //     inorder(root->right,ans);
     // }
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int>ans;
+        vector<int>inorder;
         if(root==NULL){
-            return ans;
+            return inorder;
         }
         // inorder(root,ans);
-        stack<TreeNode* >st;
-        TreeNode* node = root;
-        while(true){
-            if(node != NULL){
-                st.push(node);
-                node = node->left;
+        // stack<TreeNode* >st;
+        // TreeNode* node = root;
+        // while(true){
+        //     if(node != NULL){
+        //         st.push(node);
+        //         node = node->left;
+        //     }
+        //     else{
+        //         if(st.empty()==true){
+        //             break;
+        //         }
+        //         node = st.top();
+        //         st.pop();
+        //         ans.push_back(node->val);
+        //         node = node->right;
+        //     }
+        // }
+        // return ans;
+        // Morris traversal
+        TreeNode* curr = root;
+        while(curr){
+            if(curr->left==NULL){
+                inorder.push_back(curr->val);
+                curr = curr->right;
             }
             else{
-                if(st.empty()==true){
-                    break;
+                TreeNode* prev = curr->left;
+                while(prev->right && prev->right!=curr){
+                    prev = prev->right;
                 }
-                node = st.top();
-                st.pop();
-                ans.push_back(node->val);
-                node = node->right;
+                if(prev->right==NULL){
+                    prev->right=curr;
+                    curr = curr->left;
+                }
+                else{
+                    prev->right=NULL;
+                    inorder.push_back(curr->val);
+                    curr = curr->right;
+                }
             }
         }
-        return ans;
+        return inorder;
     }
 };
