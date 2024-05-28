@@ -1,11 +1,11 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        int xorr = 0;
+        long long xorr = 0;
         for(int i=0;i<nums.size();i++){
             xorr = xorr^nums[i];
         }
-        unsigned int rightmost = xorr & -static_cast<unsigned int>(xorr);
+        long long rightmost = xorr& -xorr;
         int b1 = 0,b2 = 0;
         for(int i=0;i<nums.size();i++){
             if(nums[i]&rightmost){
