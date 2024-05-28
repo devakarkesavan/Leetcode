@@ -1,7 +1,7 @@
 class Solution {
 public:
     int divide(int dividend, int divisor) {
-        if(dividend == divisor){
+        if(dividend==divisor){
             return 1;
         }
         bool sign = true;
@@ -13,24 +13,26 @@ public:
         }
         
         long long n = abs(dividend);
-        long long d = abs(divisor); 
+        long long d = abs(divisor);
         
-        long quotient = 0;
+        int quotient = 0;
+        
         while(n>=d){
             int cnt = 0;
-            while(n>=(d<<(cnt+1))){
+            while(n>=(d<<cnt+1)){
                 cnt++;
             }
             quotient+=1<<cnt;
-            n = n- (d<<cnt);
+            n = n-(d<<cnt);
         }
         
-        if(quotient==1<<31 && sign==true){
-            return INT_MAX;
-        }
-        if(quotient==1<<31 && sign == false){
+        if(quotient == 1<<31 && sign==false){
             return INT_MIN;
         }
-        return sign ? quotient:(-1*quotient);
+        if(quotient==1<<31 && sign == true){
+            return INT_MAX;
+        }
+        
+        return sign? quotient:(-1*quotient);
     }
 };
