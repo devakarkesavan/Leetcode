@@ -1,13 +1,27 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        int low = 0, high = 0;
-        for (char c : s) {
-            low += (c == '(') ? 1 : -1;
-            high += (c != ')') ? 1 : -1;
-            if (high < 0) return false;
-            low = max(low, 0);
+        int mini =0, maxi = 0;
+        for(auto it:s){
+            if(it=='('){
+                maxi+=1;
+                mini+=1;
+            }
+            else if(it==')'){
+                mini-=1;
+                maxi-=1;
+            }
+            else{
+                mini-=1;
+                maxi+=1;
+            }
+            if(mini<0){
+                mini = 0;
+            }
+            if(maxi<0){
+                return false;
+            }
         }
-        return low == 0;
+        return mini==0;
     }
 };
