@@ -2,17 +2,21 @@ class Solution {
 public:
     int characterReplacement(string s, int k) {
         int left = 0,right = 0;
-        int maxf = INT_MIN;
-        int maxlen = INT_MIN;
-        int hash[26] = {0};
-        while(right < s.length()){
-            hash[s[right]-'A']++;
-            maxf = max(maxf,hash[s[right]-'A']);
-            if((right-left+1)-maxf>k){
-                hash[s[left]-'A']--;
+        int n = s.length();
+        int maxf = 0;
+        int maxlen = 0;
+        vector<int>arr(26,0);
+        while(right < n){
+            arr[s[right]-'A']++;
+            maxf = max(maxf,arr[s[right]-'A']);
+            if((right-left+1)-maxf > k){
+                arr[s[left]-'A']--;
+                maxf = 0;
                 left++;
             }
-            maxlen = max(maxlen,right-left+1);
+            if((right-left+1)-maxf <= k){
+                maxlen = max(maxlen,right-left+1);
+            }
             right++;
         }
         return maxlen;
