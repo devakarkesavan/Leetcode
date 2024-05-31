@@ -2,13 +2,13 @@ class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
         long long xorr = 0;
-        for(int i=0;i<nums.size();i++){
-            xorr = xorr^nums[i];
+        for(auto it:nums){
+            xorr^=it;
         }
-        long long rightmost = xorr& -xorr;
+        long long right = xorr & -xorr;
         int b1 = 0,b2 = 0;
         for(int i=0;i<nums.size();i++){
-            if(nums[i]&rightmost){
+            if(right&nums[i]){
                 b1^=nums[i];
             }
             else{
