@@ -1,46 +1,51 @@
 class Solution {
 public:
-    int lowerBound(vector<int>&arr,int target){
-        int n = arr.size();
+    int firstOccurence(vector<int>& nums,int x){
+        int n = nums.size();
         int low = 0,high = n-1;
-        int ans = n;
+        int first = -1;
         
         while(low<=high){
             int mid = (low+high)/2;
-            if(arr[mid]>=target){
-                ans = mid;
+            if(nums[mid]==x){
+                first = mid;
                 high = mid-1;
             }
-            else{
+            else if(nums[mid]<x){
                 low = mid+1;
             }
+            else{
+                high = mid-1;
+            }
         }
-        return ans;
+        return first;
     }
     
-    int upperBound(vector<int>& arr,int target){
-        int n =  arr.size();
+    int lastOccurence(vector<int>& nums,int x){
+        int n = nums.size();
         int low = 0,high = n-1;
-        int ans = n;
-        
+        int last = -1;
         while(low<=high){
             int mid = (low+high)/2;
-            if(arr[mid]>target){
-                ans = mid;
-                high = mid-1;
-            }
-            else{
+            if(nums[mid]==x){
+                last = mid;
                 low = mid+1;
             }
+            else if(nums[mid]<x){
+                low = mid+1;
+            }
+            else{
+                high = mid-1;
+            }
         }
-        return ans;
+        return last;
     }
     vector<int> searchRange(vector<int>& nums, int target) {
-        int k = lowerBound(nums,target);
-        if(k==nums.size()||nums[k]!=target){
+        int first = firstOccurence(nums,target);
+        if(first==-1){
             return {-1,-1};
         }
-        int p = upperBound(nums,target);
-        return {k,p-1};
+        int last = lastOccurence(nums,target);
+        return {first,last};
     }
 };
