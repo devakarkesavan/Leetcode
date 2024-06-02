@@ -1,39 +1,35 @@
 class Solution {
-private:
-    int f(vector<int>&arr,int d){
-        int load = 0;
-        int day = 1;
-        for(int i=0;i<arr.size();i++){
-            if(arr[i]+load > d){
-                load = arr[i];
-                day++;
+public:
+    long long fun(int cap,vector<int>&weights){
+        long long cnt = 0;
+        long long days = 1;
+        for(int i=0;i<weights.size();i++){
+            if(cnt+weights[i]>cap){
+                days+=1;
+                cnt = weights[i];
             }
             else{
-                load+=arr[i];
+                cnt+=weights[i];
             }
         }
-        return day;
+        return days;
     }
-public:
     int shipWithinDays(vector<int>& weights, int days) {
-        int sum = 0;
-        int n = weights.size();
-        int maxi = -1;
-        for(int i=0;i<n;i++){
-            sum+=weights[i];
-            maxi = max(maxi,weights[i]);
+        long long low = *max_element(weights.begin(),weights.end());
+        long long high = 0;
+        for(auto it:weights){
+            high+=it;
         }
-        int low = maxi,high = sum;
         while(low<=high){
-            int mid = (low+high)/2;
-            int day = f(weights,mid);
-            if(day <= days){
+            long long mid = (low+high)/2;
+            long long d = fun(mid,weights);
+            if(d<=days){
                 high = mid-1;
             }
             else{
                 low = mid+1;
             }
         }
-        return low;
+        return (int)low;
     }
 };
