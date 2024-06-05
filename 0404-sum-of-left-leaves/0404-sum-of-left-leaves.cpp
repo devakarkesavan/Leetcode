@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root,int & ans){
-        if(!root)return;
-
-        inorder(root->left,ans);
-        if(root->left && !root->left->left && !root->left->right)ans+=root->left->val;
-        inorder(root->right,ans);
-    }
+    int sum = 0;
     int sumOfLeftLeaves(TreeNode* root) {
-        ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
-
-        int ans=0;
-        inorder(root,ans);
-        return ans;
+        if(root->left){
+            if(root->left->left==NULL && root->left->right==NULL){
+            sum+=root->left->val;
+            }
+            sumOfLeftLeaves(root->left);
+        }
+        if(root->right){
+            sumOfLeftLeaves(root->right);
+        }
+        return sum;
     }
 };
