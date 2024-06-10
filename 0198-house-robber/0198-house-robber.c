@@ -21,15 +21,26 @@ int rob(int* nums, int n) {
         dp[i] = 0;
     }
     dp[0] = nums[0];
+    int prev = nums[0],prev2 = 0,curr;
+    // for(int i=1;i<n;i++){
+    //     int take = nums[i];
+    //     if(i>1){
+    //         take+=dp[i-2];
+    //     }
+    //     int nt = dp[i-1];
+    //     dp[i] = max(take,nt);
+    // }
     for(int i=1;i<n;i++){
         int take = nums[i];
         if(i>1){
-            take+=dp[i-2];
+            take+=prev2;
         }
-        int nt = dp[i-1];
-        dp[i] = max(take,nt);
+        int nt = prev;
+        curr = max(take,nt);
+        prev2 = prev;
+        prev = curr;
     }
-    return dp[n-1];
+    return prev;
     // free(dp);
     // return result;
 }
