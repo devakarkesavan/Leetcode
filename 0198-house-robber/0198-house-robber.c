@@ -20,7 +20,7 @@ int rob(int* nums, int n) {
     for(int i=0;i<=n;i++){
         dp[i] = -1;
     }
-    return fun(n-1,dp,nums);
+    int result =  fun(n-1,dp,nums);
     free(dp);
-    // return result;
+    return result;
 }
