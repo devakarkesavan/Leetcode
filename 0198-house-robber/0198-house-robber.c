@@ -17,10 +17,19 @@ int fun(int ind,int* dp,int* nums){
 }
 int rob(int* nums, int n) {
     int *dp = (int*)malloc((n+1)*sizeof(int));
-    for(int i=0;i<=n;i++){
-        dp[i] = -1;
+    for(int i=0;i<n;i++){
+        dp[i] = 0;
     }
-    int result =  fun(n-1,dp,nums);
-    free(dp);
-    return result;
+    dp[0] = nums[0];
+    for(int i=1;i<n;i++){
+        int take = nums[i];
+        if(i>1){
+            take+=dp[i-2];
+        }
+        int nt = dp[i-1];
+        dp[i] = max(take,nt);
+    }
+    return dp[n-1];
+    // free(dp);
+    // return result;
 }
