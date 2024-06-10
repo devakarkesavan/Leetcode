@@ -1,57 +1,43 @@
-int dr[]{1,-1,0, 0};       
-int dc[]{0, 0,1,-1,};
 class Solution {
 public:
-    int n, m;
-    vector<vector<char>> _board;
-    string _word;
-    Solution()
-    {
-        ios_base::sync_with_stdio(false); 
-        cin.tie(NULL); 
-        cout.tie(NULL);
-    }
-    bool isValid(int r, int c)
-    {
-        if (r < 0 || r >= n)
-            return false;
-        if (c < 0 || c >= m)
-            return false;
-        return true;
-    }
-
-    bool DFS(int r, int c, int ptr)
-    {
-        if (ptr == _word.size())
+    bool dfs(int row, int col, vector<vector<int>>& vis, const string& word, vector<vector<char>>& board, int index) {
+        if (index == word.size() - 1) {
             return true;
-        
-        if (!isValid(r, c) || _board[r][c] == '0' || _word[ptr] != _board[r][c])
-            return false;
-        char tmp = _board[r][c];
-        _board[r][c] = '0';
-        for (int i = 0; i < 4; ++i)
-        {
-            if(DFS(r + dr[i], c + dc[i], ptr+1))
-                return true;
         }
-        _board[r][c] = tmp;
 
+        int n = board.size();
+        int m = board[0].size();
+
+        vis[row][col] = 1;
+        int dr[] = {-1, 0, 1, 0};
+        int dc[] = {0, 1, 0, -1};
+        for (int i = 0; i < 4; i++) {
+            int nrow = row + dr[i];
+            int ncol = col + dc[i];
+            if (nrow >= 0 && ncol >= 0 && nrow < n && ncol < m && !vis[nrow][ncol] && board[nrow][ncol] == word[index + 1]) {
+                if (dfs(nrow, ncol, vis, word, board, index + 1)) {
+                    return true;
+                }
+            }
+        }
+
+        // Backtrack
+        vis[row][col] = 0;
         return false;
     }
 
     bool exist(vector<vector<char>>& board, string word) {
-        n = board.size(), m = board[0].size();
-        _board = board;
-        _word = word;
-        for (int i = 0; i < n; ++i)
-        {
-            for (int j = 0; j < m; ++j)
-            {
-                if (DFS(i, j, 0))
+        int n = board.size();
+        int m = board[0].size();
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (board[i][j] == word[0] && dfs(i, j, vis, word, board, 0)) {
                     return true;
+                }
             }
         }
         return false;
     }
-
 };
