@@ -12,9 +12,6 @@ public:
         return dp[ind] =  first+second;
     }
     int climbStairs(int n) {
-        if(n==0 || n==1){
-            return 1;
-        }
         vector<long long int>dp(n+1,-1);
         long long int prev = 1;
         long long int prev2 = 1;
