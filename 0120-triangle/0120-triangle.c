@@ -18,13 +18,24 @@ int minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {
     for(int i=0;i<n;i++){
         dp[i] = (int*)malloc(n*sizeof(int));
         for(int j=0;j<n;j++){
-            dp[i][j] = -1;
+            dp[i][j] = 0;
         }
     }
-    int result = fun(0,0,dp,triangle,n);
     for(int i=0;i<n;i++){
-        free(dp[i]);
+        dp[n-1][i] = triangle[n-1][i];
     }
-    free(dp);
-    return result;
+    for(int i=n-2;i>=0;i--){
+        for(int j=i;j>=0;j--){
+            int d1 = dp[i+1][j] + triangle[i][j];
+            int d2 = dp[i+1][j+1] + triangle[i][j];
+            dp[i][j]= min(d1,d2);
+        }
+    }
+    return dp[0][0];
+    // int result = fun(0,0,dp,triangle,n);
+    // for(int i=0;i<n;i++){
+    //     free(dp[i]);
+    // }
+    // free(dp);
+    // return result;
 }
